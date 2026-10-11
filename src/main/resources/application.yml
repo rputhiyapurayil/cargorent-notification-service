@@ -1,0 +1,30 @@
+server:
+  port: ${PORT:8085}
+
+spring:
+  application:
+    name: cargorent-notification-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/cargorent_notifications?createDatabaseIfNotExist=true&serverTimezone=Asia/Kolkata
+    username: ${DB_USER:cargorent}
+    password: ${DB_PASSWORD:cargorent}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+services:
+  booking:
+    url: ${BOOKING_SERVICE_URL:http://localhost:8083}
+
+cargorent:
+  reminders:
+    # Every 15 minutes, look for pickups/returns due today or tomorrow.
+    cron: "0 */15 * * * *"
+    days-ahead: 1
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
